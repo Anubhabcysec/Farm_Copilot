@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import AgriIcon from '../components/AgriIcon';
 
 const VENDOR_API = `${API_BASE_URL}/api/vendor`;
 
@@ -15,36 +16,6 @@ const CATEGORY_META = {
 
 const getCategoryMeta = (category) =>
   CATEGORY_META[category] || { label: category ? category.charAt(0).toUpperCase() + category.slice(1) : 'Product', color: '#2563eb' };
-
-// Small, plain line icons (no emoji) — kept minimal and monochrome so they read as
-// real UI chrome rather than decoration.
-function Icon({ name, size = 18, color = 'currentColor', strokeWidth = 1.8 }) {
-  const p = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: color, strokeWidth, strokeLinecap: 'round', strokeLinejoin: 'round' };
-  switch (name) {
-    case 'package':
-      return (<svg {...p}><path d="M21 8.5v7a1 1 0 0 1-.5.87l-8 4.5a1 1 0 0 1-1 0l-8-4.5A1 1 0 0 1 3 15.5v-7a1 1 0 0 1 .5-.87l8-4.5a1 1 0 0 1 1 0l8 4.5a1 1 0 0 1 .5.87Z" /><path d="M3.3 8.1 12 13l8.7-4.9" /><path d="M12 13v8.5" /></svg>);
-    case 'clock':
-      return (<svg {...p}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></svg>);
-    case 'check-circle':
-      return (<svg {...p}><circle cx="12" cy="12" r="9" /><path d="M8.2 12.3 11 15l5-6" /></svg>);
-    case 'truck':
-      return (<svg {...p}><rect x="1.5" y="7" width="13" height="9.5" rx="1" /><path d="M14.5 10.5H18l3 3v3h-6.5" /><circle cx="6.5" cy="18.5" r="1.6" /><circle cx="17" cy="18.5" r="1.6" /></svg>);
-    case 'coin':
-      return (<svg {...p}><circle cx="12" cy="12" r="9" /><path d="M9.3 14.3a2.6 2.6 0 0 0 2.5 1.7c1.5 0 2.7-.9 2.7-2s-1-1.6-2.7-2c-1.7-.4-2.7-.9-2.7-2s1.2-2 2.7-2a2.6 2.6 0 0 1 2.5 1.7" /><path d="M12 6.5v11" /></svg>);
-    case 'phone':
-      return (<svg {...p}><path d="M4.5 4h3.2l1.4 4-2 1.5a11 11 0 0 0 5.4 5.4l1.5-2 4 1.4v3.2a1.5 1.5 0 0 1-1.6 1.5A15.5 15.5 0 0 1 3 5.6 1.5 1.5 0 0 1 4.5 4Z" /></svg>);
-    case 'arrow-right':
-      return (<svg {...p}><path d="M4.5 12h15" /><path d="M13 6l6 6-6 6" /></svg>);
-    case 'check':
-      return (<svg {...p}><path d="M5 13l4.5 4.5L19 8" /></svg>);
-    case 'store':
-      return (<svg {...p}><path d="M4 9.5 5 4h14l1 5.5" /><path d="M4 9.5a2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0" /><path d="M5 9.5V20h14V9.5" /><path d="M10 20v-5.5h4V20" /></svg>);
-    case 'alert':
-      return (<svg {...p}><path d="M12 4 3 20h18Z" /><path d="M12 10v4" /><path d="M12 17h.01" /></svg>);
-    default:
-      return null;
-  }
-}
 
 export default function Orders({ user, onLogin }) {
   const navigate = useNavigate();
@@ -457,7 +428,7 @@ export default function Orders({ user, onLogin }) {
           alignItems: 'center',
           gap: '10px'
         }}>
-          <Icon name="check-circle" size={17} color="#15803d" />
+          <AgriIcon name="check-circle" size={17} color="#15803d" />
           <span>{orderSuccessMsg}</span>
         </div>
       )}
@@ -487,7 +458,7 @@ export default function Orders({ user, onLogin }) {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Icon name={card.icon} size={20} color={card.color} strokeWidth={1.6} />
+              <AgriIcon name={card.icon} size={20} color={card.color} strokeWidth={1.6} />
               {statusFilter === card.key && (
                 <span style={{ fontSize: '9px', fontWeight: 700, color: card.color, backgroundColor: `${card.color}1a`, padding: '2px 8px', borderRadius: '100px' }}>FILTERING</span>
               )}
@@ -497,7 +468,7 @@ export default function Orders({ user, onLogin }) {
           </button>
         ))}
         <div className="orders-card" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Icon name="coin" size={20} color="#15803d" strokeWidth={1.6} />
+          <AgriIcon name="coin" size={20} color="#15803d" strokeWidth={1.6} />
           <div style={{ fontSize: '26px', fontWeight: 800, color: '#15803d', letterSpacing: '-0.5px' }}>₹{stats.totalSpent}</div>
           <div style={{ fontSize: '13px', color: '#374151', fontWeight: 700 }}>Total Spent (Active Orders)</div>
         </div>
@@ -655,7 +626,7 @@ export default function Orders({ user, onLogin }) {
                       </span>
                       {prod.verified && (
                         <span style={{ fontSize: '9px', fontWeight: 700, color: '#15803d', backgroundColor: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', padding: '2px 7px', borderRadius: '100px', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
-                          <Icon name="check" size={10} color="#15803d" strokeWidth={2.4} /> VERIFIED
+                          <AgriIcon name="check" size={10} color="#15803d" strokeWidth={2.4} /> VERIFIED
                         </span>
                       )}
                     </div>
@@ -751,7 +722,7 @@ export default function Orders({ user, onLogin }) {
                   </div>
                   {shop.phone ? (
                     <a href={`tel:${shop.phone.replace(/\s+/g, '')}`} style={{ fontSize: '11px', color: '#2563eb', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                      <Icon name="phone" size={11} color="#2563eb" strokeWidth={2} /> {shop.phone}
+                      <AgriIcon name="phone" size={11} color="#2563eb" strokeWidth={2} /> {shop.phone}
                     </a>
                   ) : (
                     <span style={{ fontSize: '11px', color: '#6b7280' }}>Reachable via order broadcast</span>
@@ -1050,7 +1021,7 @@ export default function Orders({ user, onLogin }) {
                       borderRadius: '10px', padding: '10px 14px', fontSize: '12px', color: '#1d4ed8', fontWeight: 500,
                       display: 'flex', alignItems: 'center', gap: '8px'
                     }}>
-                      <Icon name="truck" size={15} color="#1d4ed8" strokeWidth={1.8} />
+                      <AgriIcon name="truck" size={15} color="#1d4ed8" strokeWidth={1.8} />
                       Your order is ready. Click <strong style={{ margin: '0 3px' }}>Confirm Delivery</strong> to fill in delivery details and track the route from vendor to your location.
                     </div>
                   )}
@@ -1093,7 +1064,7 @@ export default function Orders({ user, onLogin }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <Icon name="truck" size={19} color="#111827" strokeWidth={1.6} />
+                  <AgriIcon name="truck" size={19} color="#111827" strokeWidth={1.6} />
                   <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#111827', margin: 0 }}>Confirm Delivery</h3>
                 </div>
                 <p style={{ fontSize: '12px', color: '#666', margin: 0 }}>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import AgriIcon from '../components/AgriIcon';
 
 const getApiUrl = (path) => `${API_BASE_URL}${path}`;
 
@@ -145,7 +146,7 @@ export default function Weather({ user }) {
       {
         type: 'severe_storm',
         severity: 'critical',
-        icon: '🌪️',
+        icon: 'thunderstorm',
         title: 'Severe Thunderstorm Warning',
         detail: 'Weather code 95 — active thunderstorm with possible hail',
         farmAction: 'Move livestock to shelter immediately. Secure greenhouse structures and irrigation equipment. Harvest any mature crops if possible.',
@@ -157,7 +158,7 @@ export default function Weather({ user }) {
       {
         type: 'heavy_rain',
         severity: 'high',
-        icon: '🌧️',
+        icon: 'cloud-rain-heavy',
         title: 'Heavy Rainfall — Flood Risk',
         detail: 'Cumulative 48mm of rain predicted over 3 hours',
         farmAction: 'Clear drainage channels. Cover seedbeds and nursery areas. Avoid pesticide/fertilizer application — it will wash off.',
@@ -169,7 +170,7 @@ export default function Weather({ user }) {
       {
         type: 'strong_wind',
         severity: 'high',
-        icon: '💨',
+        icon: 'wind',
         title: 'Strong Wind Warning',
         detail: 'Wind gusts up to 62 km/h',
         farmAction: 'Stake tall crops (maize, sugarcane). Secure poly-houses and shade nets. Postpone any spraying operations.',
@@ -189,17 +190,17 @@ export default function Weather({ user }) {
     ]);
 
     // Show in-page toast notifications (works without any browser permission)
-    showToast('🌪️ CRITICAL: Severe Thunderstorm Warning', 'Active thunderstorm with hail expected in 2 hours. Take immediate protective measures.', 'critical');
+    showToast('CRITICAL: Severe Thunderstorm Warning', 'Active thunderstorm with hail expected in 2 hours. Take immediate protective measures.', 'critical');
     setTimeout(() => {
-      showToast('🌧️ HIGH: Heavy Rainfall — Flood Risk', '48mm of rain predicted in 5 hours. Clear drainage channels and cover seedbeds.', 'high');
+      showToast('HIGH: Heavy Rainfall — Flood Risk', '48mm of rain predicted in 5 hours. Clear drainage channels and cover seedbeds.', 'high');
     }, 1500);
     setTimeout(() => {
-      showToast('💨 HIGH: Strong Wind Warning', 'Wind gusts up to 62 km/h expected. Stake tall crops and secure structures.', 'high');
+      showToast('HIGH: Strong Wind Warning', 'Wind gusts up to 62 km/h expected. Stake tall crops and secure structures.', 'high');
     }, 3000);
 
     // Also try browser notification as a bonus
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('🌪️ CRITICAL: Severe Thunderstorm Warning', {
+      new Notification('CRITICAL: Severe Thunderstorm Warning', {
         body: 'Active thunderstorm with hail expected in 2 hours.\nTake immediate protective measures for crops and livestock.',
         icon: '/favicon.ico',
         requireInteraction: true,
@@ -231,12 +232,12 @@ export default function Weather({ user }) {
   };
 
   const getWeatherIcon = (iconCode) => ({
-    '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
-    '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
-    '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
-    '11d': '⛈️', '11n': '⛈️', '13d': '🌨️', '13n': '🌨️',
-    '50d': '🌫️', '50n': '🌫️',
-  }[iconCode] || '🌤️');
+    '01d': 'sun', '01n': 'moon', '02d': 'cloud-sun', '02n': 'cloud-moon',
+    '03d': 'cloud', '03n': 'cloud', '04d': 'cloud', '04n': 'cloud',
+    '09d': 'cloud-rain', '09n': 'cloud-rain', '10d': 'cloud-rain', '10n': 'cloud-rain',
+    '11d': 'thunderstorm', '11n': 'thunderstorm', '13d': 'snow', '13n': 'snow',
+    '50d': 'fog', '50n': 'fog',
+  }[iconCode] || 'cloud-sun');
 
   // Muted, premium styling matching the brand colors (brand-400, violet)
   const getRiskStyles = (risk) => {
@@ -357,7 +358,7 @@ export default function Weather({ user }) {
           alignItems: 'center',
           gap: '8px'
         }}>
-          <span>📍</span>
+          <span style={{ display: 'inline-flex' }}><AgriIcon name="pin" size={15} color="#b45309" /></span>
           <span>{locationError}</span>
         </div>
       )}
@@ -385,7 +386,7 @@ export default function Weather({ user }) {
             <div className="weather-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                  <span style={{ fontSize: '48px', lineHeight: '1' }}>{getWeatherIcon(weather.icon)}</span>
+                  <AgriIcon name={getWeatherIcon(weather.icon)} size={44} color="#374151" strokeWidth={1.4} />
                   <div>
                     <h3 style={{ fontSize: '32px', fontWeight: 800, color: '#111827', margin: 0, letterSpacing: '-1px' }}>{weather.temperature}°C</h3>
                     <p style={{ fontSize: '13px', color: '#6b7280', margin: '4px 0 0', textTransform: 'capitalize' }}>{weather.description}</p>
@@ -407,7 +408,10 @@ export default function Weather({ user }) {
                   onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.2)'; e.currentTarget.style.color = '#111827'; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#6b7280'; }}
                 >
-                  🔄 Refresh
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                    <AgriIcon name="refresh" size={13} color="currentColor" />
+                    Refresh
+                  </span>
                 </button>
               </div>
 
@@ -478,7 +482,7 @@ export default function Weather({ user }) {
               alignItems: 'center',
               gap: '12px'
             }} className="weather-card">
-              <span style={{ fontSize: '20px' }}>📢</span>
+              <AgriIcon name="megaphone" size={20} color="#15803d" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16a34a', animation: 'pulseGlow 2s infinite' }} />
                 <span style={{ fontSize: '13px', color: '#15803d', fontWeight: 500, lineHeight: '1.4' }}>{alertMsg}</span>
@@ -489,16 +493,16 @@ export default function Weather({ user }) {
           {/* Second Row: Detailed weather metrics grid */}
           <div className="metrics-grid">
             {[
-              { icon: '🌡️', value: `${weather.feelsLike}°C`, label: 'Feels Like', warn: false },
-              { icon: '💧', value: `${weather.humidity}%`, label: 'Humidity', warn: weather.humidity > 75 },
-              { icon: '🌧️', value: `${weather.rainfall}mm`, label: 'Precipitation', warn: weather.rainfall > 5 },
-              { icon: '💨', value: `${weather.windSpeed} km/h`, label: 'Wind Speed', warn: false }
+              { icon: 'thermometer', value: `${weather.feelsLike}°C`, label: 'Feels Like', warn: false },
+              { icon: 'droplet', value: `${weather.humidity}%`, label: 'Humidity', warn: weather.humidity > 75 },
+              { icon: 'cloud-rain', value: `${weather.rainfall}mm`, label: 'Precipitation', warn: weather.rainfall > 5 },
+              { icon: 'wind', value: `${weather.windSpeed} km/h`, label: 'Wind Speed', warn: false }
             ].map((metric) => (
               <div key={metric.label} className="metric-card" style={metric.warn ? {
                 background: 'rgba(34, 197, 94, 0.08)',
                 borderColor: 'rgba(34, 197, 94, 0.25)'
               } : {}}>
-                <div style={{ fontSize: '24px', marginBottom: '8px' }}>{metric.icon}</div>
+                <div style={{ marginBottom: '8px' }}><AgriIcon name={metric.icon} size={22} color={metric.warn ? '#15803d' : '#374151'} /></div>
                 <h4 style={{ fontSize: '16px', fontWeight: 700, color: metric.warn ? '#15803d' : '#111827', margin: 0 }}>{metric.value}</h4>
                 <p style={{ fontSize: '11px', color: '#6b7280', margin: '4px 0 0' }}>{metric.label}</p>
               </div>
@@ -542,7 +546,10 @@ export default function Weather({ user }) {
                     }
                   }}
                 >
-                  {notificationsEnabled ? '🔔 Notifications On' : '🔕 Enable Notifications'}
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <AgriIcon name={notificationsEnabled ? 'bell' : 'bell-off'} size={13} color="currentColor" />
+                    {notificationsEnabled ? 'Notifications On' : 'Enable Notifications'}
+                  </span>
                 </button>
                 <button
                   onClick={simulateAlert}
@@ -563,7 +570,8 @@ export default function Weather({ user }) {
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)'; e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.4)'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'; e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.25)'; }}
                 >
-                  ⚡ Simulate Alert
+                  <AgriIcon name="zap" size={13} color="currentColor" />
+                  Simulate Alert
                 </button>
               </div>
 
@@ -587,7 +595,7 @@ export default function Weather({ user }) {
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                          <span style={{ fontSize: '24px' }}>{alertItem.icon}</span>
+                          <AgriIcon name={alertItem.icon} size={22} color={alertStyle.color} />
                           <div>
                             <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#111827', margin: 0 }}>{alertItem.title}</h4>
                             <p style={{ fontSize: '12px', color: alertStyle.color, margin: '2px 0 0', fontWeight: 500 }}>
@@ -617,12 +625,12 @@ export default function Weather({ user }) {
                         marginTop: '4px'
                       }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '12px' }}>⏱️</span>
+                          <AgriIcon name="stopwatch" size={12} color="#374151" />
                           <span style={{ fontSize: '11px', color: '#374151', fontWeight: 600 }}>{alertItem.timeWindow}</span>
                         </div>
                         {alertItem.detail && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                            <span style={{ fontSize: '12px' }}>📊</span>
+                            <AgriIcon name="ruler" size={12} color="#374151" />
                             <span style={{ fontSize: '11px', color: '#374151' }}>{alertItem.detail}</span>
                           </div>
                         )}
@@ -649,9 +657,9 @@ export default function Weather({ user }) {
                   border: '1px solid rgba(52, 211, 153, 0.15)',
                   borderRadius: '16px',
                 }}>
-                  <span style={{ fontSize: '32px' }}>✅</span>
+                  <AgriIcon name="check-circle" size={30} color="#15803d" />
                   <p style={{ fontSize: '13px', color: '#6b7280', margin: '12px 0 0', lineHeight: '1.6' }}>
-                    No severe weather events predicted in the next 48 hours. Click <strong style={{ color: '#b91c1c' }}>⚡ Simulate Alert</strong> to demo the notification system.
+                    No severe weather events predicted in the next 48 hours. Click <strong style={{ color: '#b91c1c', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><AgriIcon name="zap" size={11} color="#b91c1c" />Simulate Alert</strong> to demo the notification system.
                   </p>
                 </div>
               )}
@@ -684,7 +692,7 @@ export default function Weather({ user }) {
                       {/* Risk Header info */}
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                          <span style={{ fontSize: '24px' }}>{risk.icon}</span>
+                          <AgriIcon name={risk.icon} size={22} color={itemStyles.color} />
                           <div>
                             <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#111827', margin: 0 }}>{risk.disease}</h4>
                             <p style={{ fontSize: '11px', color: '#6b7280', margin: '2px 0 0' }}>Susceptible: {risk.crops.join(', ')}</p>
@@ -752,7 +760,7 @@ export default function Weather({ user }) {
           {/* Clean state layout if no threats present */}
           {risks.length === 0 && (
             <div className="weather-card" style={{ textAlign: 'center', padding: '48px 24px', backgroundColor: 'rgba(52, 211, 153, 0.05)', borderColor: 'rgba(52, 211, 153, 0.15)' }}>
-              <span style={{ fontSize: '48px' }}>🌿</span>
+              <AgriIcon name="leaf" size={44} color="#15803d" />
               <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#15803d', margin: '16px 0 8px' }}>All Susceptibility Clear</h3>
               <p style={{ fontSize: '13px', color: '#6b7280', margin: 0, lineHeight: '1.6' }}>
                 Current weather matrices indicate minimal risk parameters. Continue standard care routines and moisture schedules.

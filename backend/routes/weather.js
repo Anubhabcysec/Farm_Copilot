@@ -179,10 +179,10 @@ router.get('/', async (req, res) => {
         },
         risks,
         alert: highRiskCount > 0
-          ? `⚠ High risk of ${risks[0].disease} detected based on current weather conditions`
+          ? `High risk of ${risks[0].disease} detected based on current weather conditions`
           : medRiskCount > 0
-            ? `⚡ Moderate disease risk detected — monitor crops closely`
-            : `✅ Low disease risk — conditions are favorable`
+            ? `Moderate disease risk detected — monitor crops closely`
+            : `Low disease risk — conditions are favorable`
       }
     });
 
@@ -200,7 +200,7 @@ router.get('/', async (req, res) => {
 const ALERT_THRESHOLDS = [
   {
     type: 'severe_storm',
-    icon: '🌪️',
+    icon: 'thunderstorm',
     severity: 'critical',
     title: 'Severe Storm / Thunderstorm',
     check: (hour) => hour.weather_code >= 95,
@@ -208,7 +208,7 @@ const ALERT_THRESHOLDS = [
   },
   {
     type: 'heavy_rain',
-    icon: '🌧️',
+    icon: 'cloud-rain-heavy',
     severity: 'high',
     title: 'Heavy Rainfall Expected',
     // Checked via 3-hour rolling window below
@@ -217,7 +217,7 @@ const ALERT_THRESHOLDS = [
   },
   {
     type: 'strong_wind',
-    icon: '💨',
+    icon: 'wind',
     severity: 'high',
     title: 'Strong Wind Warning',
     check: (hour) => hour.wind_gusts_10m >= 50,
@@ -225,7 +225,7 @@ const ALERT_THRESHOLDS = [
   },
   {
     type: 'extreme_heat',
-    icon: '🔥',
+    icon: 'thermometer',
     severity: 'medium',
     title: 'Extreme Heat Alert',
     check: (hour) => hour.temperature_2m >= 42,
@@ -233,7 +233,7 @@ const ALERT_THRESHOLDS = [
   },
   {
     type: 'moderate_rain',
-    icon: '🌦️',
+    icon: 'cloud-drizzle',
     severity: 'medium',
     title: 'Moderate Rainfall Expected',
     check: () => false,
@@ -241,7 +241,7 @@ const ALERT_THRESHOLDS = [
   },
   {
     type: 'moderate_wind',
-    icon: '💨',
+    icon: 'wind',
     severity: 'medium',
     title: 'Moderate Wind Advisory',
     check: (hour) => hour.wind_gusts_10m >= 35 && hour.wind_gusts_10m < 50,
@@ -338,7 +338,7 @@ router.get('/forecast-alerts', async (req, res) => {
       const sum3h = futureHours[i].precipitation + futureHours[i + 1].precipitation + futureHours[i + 2].precipitation;
       if (sum3h >= 30) {
         rawAlerts.push({
-          type: 'heavy_rain', severity: 'high', icon: '🌧️',
+          type: 'heavy_rain', severity: 'high', icon: 'cloud-rain-heavy',
           title: 'Heavy Rainfall Expected',
           farmAction: ALERT_THRESHOLDS.find(t => t.type === 'heavy_rain').farmAction,
           time: futureHours[i].time,
@@ -346,7 +346,7 @@ router.get('/forecast-alerts', async (req, res) => {
         });
       } else if (sum3h >= 15) {
         rawAlerts.push({
-          type: 'moderate_rain', severity: 'medium', icon: '🌦️',
+          type: 'moderate_rain', severity: 'medium', icon: 'cloud-drizzle',
           title: 'Moderate Rainfall Expected',
           farmAction: ALERT_THRESHOLDS.find(t => t.type === 'moderate_rain').farmAction,
           time: futureHours[i].time,

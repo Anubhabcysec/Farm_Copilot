@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { API_BASE_URL } from '../config';
+import AgriIcon from './AgriIcon';
 
 /**
  * A location input that a farmer can fill three ways:
@@ -130,7 +131,12 @@ export default function LocationField({ value, coords, onChange, inputStyle, lab
               fontSize: '11px', fontWeight: 600, cursor: locating ? 'not-allowed' : 'pointer', padding: 0,
             }}
           >
-            {locating ? 'Locating…' : '📍 Use Current Location'}
+            {locating ? 'Locating…' : (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <AgriIcon name="pin" size={11} color="currentColor" />
+                Use Current Location
+              </span>
+            )}
           </button>
           <button
             type="button"
@@ -140,7 +146,10 @@ export default function LocationField({ value, coords, onChange, inputStyle, lab
               fontSize: '11px', fontWeight: 600, cursor: 'pointer', padding: 0,
             }}
           >
-            🗺️ Select on Map
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <AgriIcon name="map" size={11} color="currentColor" />
+              Select on Map
+            </span>
           </button>
         </div>
       </div>
@@ -183,7 +192,7 @@ export default function LocationField({ value, coords, onChange, inputStyle, lab
             borderRadius: '20px', padding: '20px', boxShadow: '0 24px 80px rgba(0,0,0,0.8)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: 0 }}>🗺️ Select Your Location</h3>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="map" size={14} color="#fff" />Select Your Location</h3>
               <button
                 type="button"
                 onClick={() => setShowMapPicker(false)}
@@ -231,8 +240,9 @@ export default function LocationField({ value, coords, onChange, inputStyle, lab
               </div>
             )}
             {pickerCenter && (
-              <p style={{ fontSize: '11px', color: '#888', marginTop: '8px' }}>
-                🔵 Blue dot = your current location. Click/drag the pin to set your exact field location.
+              <p style={{ fontSize: '11px', color: '#888', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#4285F4', flexShrink: 0 }} />
+                Blue dot = your current location. Click/drag the pin to set your exact field location.
               </p>
             )}
             {pickerError && <p style={{ fontSize: '11px', color: '#f87171', marginTop: '8px' }}>{pickerError}</p>}

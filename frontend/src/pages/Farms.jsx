@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LocationField from '../components/LocationField';
+import AgriIcon from '../components/AgriIcon';
 import { API_BASE_URL } from '../config';
 
 const API_BASE = `${API_BASE_URL}/api/farms`;
@@ -140,7 +141,7 @@ export default function Farms({ user, onLogin }) {
   if (!user) {
     return (
       <div style={{ ...cardStyle, textAlign: 'center', padding: '48px 24px' }}>
-        <div style={{ fontSize: '32px', marginBottom: '12px' }}>🌾</div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}><AgriIcon name="wheat" size={30} color="#15803d" /></div>
         <h3 style={{ color: '#111827', fontSize: '17px', margin: '0 0 8px' }}>Log in to manage your farms</h3>
         <p style={{ color: '#666', fontSize: '13px', margin: '0 0 20px' }}>
           Each farm keeps its own location, crop and soil history.
@@ -210,7 +211,7 @@ export default function Farms({ user, onLogin }) {
       {/* Farm cards */}
       {farms.length === 0 ? (
         <div style={{ ...cardStyle, textAlign: 'center', padding: '40px 24px' }}>
-          <div style={{ fontSize: '28px', marginBottom: '10px' }}>🌱</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}><AgriIcon name="sprout" size={26} color="#15803d" /></div>
           <p style={{ color: '#6b7280', fontSize: '14px', margin: '0 0 4px' }}>No farms yet.</p>
           <p style={{ color: '#6b7280', fontSize: '12px', margin: 0 }}>
             Add your first farm to start recording soil tests for it.
@@ -222,11 +223,13 @@ export default function Farms({ user, onLogin }) {
             <div key={farm.id} style={cardStyle}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
                 <div style={{ minWidth: 0 }}>
-                  <h3 style={{ color: '#111827', fontSize: '16px', fontWeight: 700, margin: '0 0 4px' }}>
-                    🌾 {farm.name}
+                  <h3 style={{ color: '#111827', fontSize: '16px', fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <AgriIcon name="wheat" size={15} color="#15803d" />
+                    {farm.name}
                   </h3>
-                  <p style={{ color: '#6b7280', fontSize: '12px', margin: 0, lineHeight: 1.5 }}>
-                    📍 {farm.location}
+                  <p style={{ color: '#6b7280', fontSize: '12px', margin: 0, lineHeight: 1.5, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <AgriIcon name="pin" size={12} color="#6b7280" />
+                    {farm.location}
                   </p>
                 </div>
                 {farm.coords ? (
@@ -400,7 +403,7 @@ export default function Farms({ user, onLogin }) {
                   fontSize: '14px', fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer',
                 }}
               >
-                {saving ? '⏳ Saving…' : (editingId ? 'Save Changes' : 'Add Farm')}
+                {saving ? 'Saving…' : (editingId ? 'Save Changes' : 'Add Farm')}
               </button>
             </form>
           </div>

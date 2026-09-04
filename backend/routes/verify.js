@@ -7,9 +7,9 @@ const router = express.Router();
 router.post('/', (req, res) => {
     const { code } = req.body;
     if (code === '12345') {
-        res.json({ message: '✅ Product is authentic' });
+        res.json({ message: 'Product is authentic' });
     } else {
-        res.json({ message: '❌ Fake product' });
+        res.json({ message: 'Fake product' });
     }
 });
 
@@ -18,7 +18,7 @@ router.get('/gemini-handshake', async (req, res) => {
     const key = process.env.GEMINI_API_KEY;
 
     if (!key) {
-        return res.json({ success: false, status: '❌ MISSING', message: 'GEMINI_API_KEY not set in .env' });
+        return res.json({ success: false, status: 'MISSING', message: 'GEMINI_API_KEY not set in .env' });
     }
 
     try {
@@ -29,7 +29,7 @@ router.get('/gemini-handshake', async (req, res) => {
 
         res.json({
             success: true,
-            status: '✅ CONNECTED',
+            status: 'CONNECTED',
             model: 'gemini-2.0-flash',
             keyPrefix: key.substring(0, 8) + '...',
             response: text
@@ -39,16 +39,16 @@ router.get('/gemini-handshake', async (req, res) => {
         let status, advice;
 
         if (msg.includes('429')) {
-            status = '⏳ QUOTA EXHAUSTED';
+            status = 'QUOTA EXHAUSTED';
             advice = 'Free tier daily limit reached. Resets at ~1:30 AM IST. Or enable billing at console.cloud.google.com';
         } else if (msg.includes('403')) {
-            status = '🔒 ACCESS DENIED';
+            status = 'ACCESS DENIED';
             advice = 'This API key does not have permission for this model.';
         } else if (msg.includes('404')) {
-            status = '❓ MODEL NOT FOUND';
+            status = 'MODEL NOT FOUND';
             advice = 'The model name is not available for this API key.';
         } else {
-            status = '❌ ERROR';
+            status = 'ERROR';
             advice = msg.substring(0, 200);
         }
 

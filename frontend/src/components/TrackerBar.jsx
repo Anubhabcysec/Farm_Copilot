@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTracking } from '../context/TrackingContext';
+import AgriIcon from './AgriIcon';
 
 // Small floating bar shown on EVERY page (Orders, Equipment, Advisory, etc.)
 // whenever a delivery/equipment is being tracked, so switching pages never
@@ -8,7 +9,7 @@ export default function TrackerBar() {
   const { tracking, arrived, secondsLeft, stopTracking } = useTracking();
   if (!tracking) return null;
 
-  const icon = tracking.type === 'order' ? '📦' : '🚜';
+  const icon = tracking.type === 'order' ? 'package' : 'tractor';
 
   return (
     <div style={{
@@ -33,10 +34,11 @@ export default function TrackerBar() {
         backgroundColor: arrived ? '#34d399' : '#f97316',
         boxShadow: arrived ? '0 0 8px #34d399' : '0 0 8px #f97316',
       }} />
-      <span style={{ fontSize: '12px', color: '#111827', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <span style={{ fontSize: '12px', color: '#111827', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+        <AgriIcon name={arrived ? 'check-circle' : icon} size={13} color={arrived ? '#15803d' : '#111827'} />
         {arrived
-          ? `✅ ${tracking.label} arrived`
-          : `${icon} ${tracking.label} — ETA ${secondsLeft}s`}
+          ? `${tracking.label} arrived`
+          : `${tracking.label} — ETA ${secondsLeft}s`}
       </span>
       <Link
         to="/treatment"

@@ -118,9 +118,9 @@ Return your response in STRICT JSON format with these exact keys:
     const msg = error.message || '';
     let friendlyMessage;
     if (msg.includes('429')) {
-      friendlyMessage = '⏳ API quota exhausted for today. The free tier limit has been reached. Please try again after midnight (IST) or enable billing at console.cloud.google.com.';
+      friendlyMessage = 'API quota exhausted for today. The free tier limit has been reached. Please try again after midnight (IST) or enable billing at console.cloud.google.com.';
     } else if (msg.includes('403')) {
-      friendlyMessage = '🔒 API key does not have access to this model. Please check your Google AI Studio project permissions.';
+      friendlyMessage = 'API key does not have access to this model. Please check your Google AI Studio project permissions.';
     } else {
       friendlyMessage = 'Error: ' + msg;
     }

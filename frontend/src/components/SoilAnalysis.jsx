@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import AgriIcon from './AgriIcon';
 
 const SOIL_API = `${API_BASE_URL}/api/soil`;
 const VENDOR_API = `${API_BASE_URL}/api/vendor`;
@@ -170,8 +171,9 @@ export default function SoilAnalysis({ user, farm, tests, autoRunKey }) {
         flexWrap: 'wrap', gap: '10px', marginBottom: analysis || loading ? '18px' : '12px',
       }}>
         <div>
-          <h3 style={{ color: '#fff', fontSize: '15px', fontWeight: 700, margin: '0 0 4px' }}>
-            🤖 AI Soil Analysis
+          <h3 style={{ color: '#fff', fontSize: '15px', fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <AgriIcon name="robot" size={15} color="#fff" />
+            AI Soil Analysis
           </h3>
           <p style={{ color: '#666', fontSize: '12px', margin: 0 }}>
             From your soil numbers, this farm's history and local weather. Soil only — no plant photos involved.

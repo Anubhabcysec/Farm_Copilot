@@ -4,6 +4,7 @@ import axios from 'axios';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, DirectionsRenderer } from '@react-google-maps/api';
 import { API_BASE_URL } from '../config';
 import { useTracking } from '../context/TrackingContext';
+import AgriIcon from '../components/AgriIcon';
 
 const mapContainerStyle = { width: '100%', height: '100%', minHeight: '500px', borderRadius: '0.75rem' };
 const getApiUrl = (path) => `${API_BASE_URL}${path}`;
@@ -21,10 +22,10 @@ const FARMER_FIELD_LOCATION = { lat: 12.8398, lng: 77.5192 }; // Kaggalipura, Be
 // Simulated delivery duration for the demo tracking map (kept in sync with the backend's DELIVERY_DURATION_MS)
 const DELIVERY_DURATION_MS = 2 * 60 * 1000; // 2 minutes
 
-const getCropEmoji = (crop) => ({
-  Tomato: '🍅', Potato: '🥔', Wheat: '🌾', Rice: '🌾', Cotton: '☁️',
-  Grape: '🍇', Maize: '🌽', Chilli: '🌶️', Mango: '🥭', Onion: '🧅', Soybean: '🫘', General: '🌱',
-}[crop] || '🌱');
+const getCropIconName = (crop) => ({
+  Tomato: 'tomato', Potato: 'potato', Wheat: 'wheat', Rice: 'wheat', Cotton: 'cotton',
+  Grape: 'grape', Maize: 'corn', Chilli: 'chili', Mango: 'mango', Onion: 'onion', Soybean: 'bean', General: 'sprout',
+}[crop] || 'sprout');
 
 export default function Treatment() {
   const [searchParams] = useSearchParams();
@@ -509,13 +510,14 @@ export default function Treatment() {
           >
             {diseaseFreeText ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
-                <span style={{ fontSize: '14px' }}>🧠</span>
+                <AgriIcon name="brain" size={14} color="#15803d" />
                 <span style={{ fontSize: '14px', color: '#15803d', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{diseaseFreeText}</span>
                 <span style={{ fontSize: '9px', fontWeight: 700, color: '#15803d', backgroundColor: 'rgba(52,211,153,0.12)', padding: '2px 8px', borderRadius: '100px', border: '1px solid rgba(52,211,153,0.2)', flexShrink: 0 }}>AI</span>
               </div>
             ) : displayLabel ? (
-              <span style={{ fontSize: '14px', color: '#1f2937', fontWeight: 500 }}>
-                {getCropEmoji(diseases.find(d => d.key === selectedDisease)?.crop)} {displayLabel}
+              <span style={{ fontSize: '14px', color: '#1f2937', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <AgriIcon name={getCropIconName(diseases.find(d => d.key === selectedDisease)?.crop)} size={14} color="#1f2937" />
+                {displayLabel}
               </span>
             ) : (
               <span style={{ fontSize: '14px', color: '#6b7280' }}>Select crop & disease…</span>
@@ -552,7 +554,7 @@ export default function Treatment() {
                   onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.06)'; e.currentTarget.style.color = '#1f2937'; }}
                   onMouseLeave={e => { e.currentTarget.style.backgroundColor = selectedDisease === d.key ? 'rgba(0,0,0,0.04)' : 'transparent'; e.currentTarget.style.color = selectedDisease === d.key ? '#1f2937' : '#6b7280'; }}
                 >
-                  <span style={{ fontSize: '16px' }}>{getCropEmoji(d.crop)}</span>
+                  <AgriIcon name={getCropIconName(d.crop)} size={15} color="#374151" />
                   <span style={{ fontWeight: 500 }}>{d.label}</span>
                 </div>
               ))}
@@ -599,8 +601,9 @@ export default function Treatment() {
             display: 'flex', flexDirection: 'column', gap: '10px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', width: '100%' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: '#15803d', letterSpacing: '0.3px' }}>
-                🌾 AI Diagnosis Recommended Products ({advisoryProducts.length})
+              <span style={{ fontSize: '12px', fontWeight: 700, color: '#15803d', letterSpacing: '0.3px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <AgriIcon name="wheat" size={13} color="#15803d" />
+                AI Diagnosis Recommended Products ({advisoryProducts.length})
               </span>
             </div>
 
@@ -627,7 +630,10 @@ export default function Treatment() {
                       className="instruction-btn"
                       style={{ marginTop: '8px' }}
                     >
-                      📖 Usage Instructions
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                        <AgriIcon name="book" size={12} color="currentColor" />
+                        Usage Instructions
+                      </span>
                     </button>
                   </div>
 
@@ -673,7 +679,10 @@ export default function Treatment() {
                   })}
                   className="instruction-btn"
                 >
-                  📖 Usage Instructions
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                    <AgriIcon name="book" size={12} color="currentColor" />
+                    Usage Instructions
+                  </span>
                 </button>
               </div>
               <span style={{
@@ -709,7 +718,10 @@ export default function Treatment() {
                     })}
                     className="instruction-btn"
                   >
-                    📖 Usage Instructions
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                      <AgriIcon name="book" size={12} color="currentColor" />
+                      Usage Instructions
+                    </span>
                   </button>
                 </div>
                 <span style={{
@@ -727,7 +739,7 @@ export default function Treatment() {
                 padding: '12px 16px', border: '1px solid rgba(234,179,8,0.2)',
                 display: 'flex', alignItems: 'flex-start', gap: '10px',
               }}>
-                <span style={{ fontSize: '14px' }}>⚠️</span>
+                <AgriIcon name="alert-triangle" size={14} color="#a16207" />
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: 700, color: '#a16207', letterSpacing: '0.5px', marginBottom: '3px' }}>PRECAUTIONS</div>
                   <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: 1.6 }}>{result.precautions}</div>
@@ -745,7 +757,7 @@ export default function Treatment() {
             padding: '14px 16px', border: '1px solid rgba(234,179,8,0.2)',
             display: 'flex', alignItems: 'center', gap: '10px',
           }}>
-            <span style={{ fontSize: '18px' }}>⚠️</span>
+            <AgriIcon name="alert-triangle" size={17} color="#a16207" />
             <div>
               <div style={{ fontSize: '13px', fontWeight: 600, color: '#a16207' }}>No Match Found</div>
               <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>{result.message}</div>
@@ -760,7 +772,7 @@ export default function Treatment() {
             backgroundColor: 'rgba(34,197,94,0.06)', borderRadius: '10px',
             padding: '12px 16px', border: '1px solid rgba(34,197,94,0.15)',
           }}>
-            <span style={{ fontSize: '18px' }}>📍</span>
+            <AgriIcon name="pin" size={17} color="#15803d" />
             <div>
               <div style={{ fontSize: '13px', fontWeight: 600, color: '#15803d' }}>
                 {nearestTenOnly
@@ -797,7 +809,7 @@ export default function Treatment() {
               <button onClick={() => { setEquipTrack(null); setDirections(null); setRouteInfo(null); setEquipDriverPos(null); setEquipArrived(false); stopGlobalTracking(); }} style={{
                 background: 'none', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '8px',
                 color: '#6b7280', fontSize: '12px', fontWeight: 500, padding: '6px 14px', cursor: 'pointer',
-              }}>✕ Stop Tracking</button>
+              }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="x-circle" size={12} color="currentColor" />Stop Tracking</span></button>
             )}
             <button onClick={() => fetchNearbyShops(true)} style={{
               background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)', borderRadius: '8px',
@@ -806,7 +818,7 @@ export default function Treatment() {
             }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.2)'; }}
               onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.1)'; }}
-            >📍 Detect My Location</button>
+            ><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="pin" size={12} color="currentColor" />Detect My Location</span></button>
 
             <button
               onClick={() => setNearestTenOnly(v => !v)}
@@ -819,7 +831,7 @@ export default function Treatment() {
                 fontSize: '12px', fontWeight: 500, padding: '6px 14px', cursor: 'pointer',
                 transition: 'all 0.2s',
               }}
-            >🎯 Nearest 10 Shops</button>
+            ><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="navigation" size={12} color="currentColor" />Nearest 10 Shops</span></button>
 
             <button onClick={() => fetchNearbyShops(false)} style={{
               background: 'none', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '8px',
@@ -828,7 +840,7 @@ export default function Treatment() {
             }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.25)'; e.currentTarget.style.color = '#111827'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.1)'; e.currentTarget.style.color = '#6b7280'; }}
-            >🔄 Refresh</button>
+            ><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="refresh" size={12} color="currentColor" />Refresh</span></button>
           </div>
         </div>
 
@@ -882,8 +894,8 @@ export default function Treatment() {
                   )}
                   {equipTrack && (
                     <>
-                      <Marker position={(vendorShopCoords && vendorShopCoords[equipTrack.shopId]) || SHOP_LOCATIONS[equipTrack.shopId] || userLocation} label={{ text: '🏬', fontSize: '20px' }} />
-                      <Marker position={equipTrack.destination || FARMER_FIELD_LOCATION} label={{ text: '🌾', fontSize: '20px' }} />
+                      <Marker position={(vendorShopCoords && vendorShopCoords[equipTrack.shopId]) || SHOP_LOCATIONS[equipTrack.shopId] || userLocation} label={{ text: 'S', fontSize: '13px', fontWeight: '700', color: '#ffffff' }} />
+                      <Marker position={equipTrack.destination || FARMER_FIELD_LOCATION} label={{ text: 'F', fontSize: '13px', fontWeight: '700', color: '#ffffff' }} />
                       {equipDriverPos && (
                         <Marker position={equipDriverPos} icon={{ url: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png' }} />
                       )}
@@ -917,12 +929,12 @@ export default function Treatment() {
                       <div style={{ fontSize: '12px', fontWeight: 600, color: '#111827', marginBottom: '8px' }}>{equipTrack.label}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span style={{ fontSize: '11px' }}>📏</span>
+                          <AgriIcon name="navigation" size={11} color="#374151" />
                           <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>{routeInfo.distance}</span>
                         </div>
                         {!equipArrived && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <span style={{ fontSize: '11px' }}>⏱️</span>
+                            <AgriIcon name="clock" size={11} color="#374151" />
                             <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>ETA {routeInfo.duration}</span>
                           </div>
                         )}
@@ -944,20 +956,20 @@ export default function Treatment() {
                           <div style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#3b82f6', animation: 'pulse 2s infinite' }} />
                           <span style={{ fontSize: '9px', fontWeight: 700, color: '#2563eb', letterSpacing: '0.6px' }}>DRIVING ROUTE</span>
                         </div>
-                        <button onClick={handleCloseInfoWindow} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '11px', cursor: 'pointer', padding: 0 }}>✕</button>
+                        <button onClick={handleCloseInfoWindow} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '11px', cursor: 'pointer', padding: 0, display: 'inline-flex' }}><AgriIcon name="x-circle" size={12} color="currentColor" /></button>
                       </div>
                       <div style={{ fontSize: '12px', fontWeight: 600, color: '#111827', marginBottom: '8px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{selectedShop.name}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span style={{ fontSize: '11px' }}>📏</span>
+                          <AgriIcon name="navigation" size={11} color="#374151" />
                           <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>{routeInfo.distance}</span>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span style={{ fontSize: '11px' }}>⏱️</span>
+                          <AgriIcon name="clock" size={11} color="#374151" />
                           <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>{routeInfo.durationInTraffic || routeInfo.duration}</span>
                         </div>
                         {routeInfo.durationInTraffic && routeInfo.durationInTraffic !== routeInfo.duration && (
-                          <span style={{ fontSize: '8px', fontWeight: 700, color: '#a16207', backgroundColor: 'rgba(250,204,21,0.15)', padding: '2px 6px', borderRadius: '100px', border: '1px solid rgba(250,204,21,0.3)' }}>🚦</span>
+                          <span style={{ fontSize: '8px', fontWeight: 700, color: '#a16207', backgroundColor: 'rgba(250,204,21,0.15)', padding: '2px 6px', borderRadius: '100px', border: '1px solid rgba(250,204,21,0.3)', display: 'inline-flex', alignItems: 'center' }}><AgriIcon name="traffic-light" size={10} color="#a16207" /></span>
                         )}
                       </div>
                       <button onClick={() => openInGoogleMaps(selectedShop)} style={{
@@ -968,7 +980,7 @@ export default function Treatment() {
                       }}
                         onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.25)'}
                         onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.15)'}
-                      >🗺️ Open in Google Maps</button>
+                      ><AgriIcon name="map" size={12} color="currentColor" />Open in Google Maps</button>
                     </div>
                   </div>
                 )}
@@ -1012,7 +1024,7 @@ export default function Treatment() {
                       }}>{shop.availability}</span>
                     )}
                   </div>
-                  <p style={{ fontSize: '12px', color: '#6b7280', margin: '0 0 8px', lineHeight: 1.5 }}>📍 {shop.address}</p>
+                  <p style={{ fontSize: '12px', color: '#6b7280', margin: '0 0 8px', lineHeight: 1.5, display: 'flex', alignItems: 'flex-start', gap: '5px' }}><AgriIcon name="pin" size={12} color="#6b7280" style={{ marginTop: '2px', flexShrink: 0 }} />{shop.address}</p>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                     {renderStars(shop.rating)}
                     {shop.distance && <span style={{ fontSize: '11px', color: '#6b7280', fontWeight: 500 }}>{shop.distance}</span>}
@@ -1027,7 +1039,7 @@ export default function Treatment() {
                       }}
                         onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.18)'; }}
                         onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)'; e.currentTarget.style.borderColor = 'rgba(0,0,0,0.1)'; }}
-                      >📞 Call</a>
+                      ><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="phone" size={12} color="currentColor" />Call</span></a>
                     )}
                     <button onClick={e => { e.stopPropagation(); openInGoogleMaps(shop); }} style={{
                       flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
@@ -1037,7 +1049,7 @@ export default function Treatment() {
                     }}
                       onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.15)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; }}
                       onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(59,130,246,0.08)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.2)'; }}
-                    >🗺️ Google Maps</button>
+                    ><span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="map" size={12} color="currentColor" />Google Maps</span></button>
                   </div>
                 </div>
               ))
@@ -1054,7 +1066,7 @@ export default function Treatment() {
           <div className="instruction-modal-card" onClick={e => e.stopPropagation()}>
             <div className="instruction-modal-header">
               <div className="flex items-center gap-2">
-                <span className="text-xl">📖</span>
+                <span className="text-xl"><AgriIcon name="book" size={18} color="currentColor" /></span>
                 <div>
                   <h3 className="text-base font-semibold text-gray-900">{selectedInstruction.name}</h3>
                   <span className="text-xs text-green-700 capitalize">{selectedInstruction.category}</span>
@@ -1071,28 +1083,28 @@ export default function Treatment() {
 
             <div className="flex flex-col gap-3">
               <div className="instruction-step instruction-step-purple">
-                <div className="step-title">🧪 Mixing Ratio & Dosage</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="flask" size={14} color="currentColor" />Mixing Ratio & Dosage</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.dosage || '2g per litre of clean water'}. Mix thoroughly in a small container before adding to the main spray tank.
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-emerald">
-                <div className="step-title">🚿 Application Method & Timing</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="spray" size={14} color="currentColor" />Application Method & Timing</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.application || 'Foliar spray at 10-15 day intervals'}. Apply evenly on upper and lower leaf surfaces during early morning (6-9 AM) or late evening (5-7 PM).
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-amber">
-                <div className="step-title">🛡️ Safety & Protection</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="shield" size={14} color="currentColor" />Safety & Protection</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.precautions || 'Avoid spraying during high winds. Wear protective gloves and a face mask.'} Keep out of reach of children and domestic animals.
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-blue">
-                <div className="step-title">⏰ Spray Frequency</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="clock" size={14} color="currentColor" />Spray Frequency</div>
                 <p className="instruction-step-desc">
                   Repeat application every 10–14 days if pest or disease symptoms persist. Stop application 7–10 days before crop harvest.
                 </p>

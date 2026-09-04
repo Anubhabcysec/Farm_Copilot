@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import AgriIcon from '../components/AgriIcon';
 
 const API_BASE = `${API_BASE_URL}/api/equipment`;
 
@@ -241,7 +242,7 @@ export default function Equipment({ user, onLogin }) {
     }
   };
 
-  const selectedType = equipmentTypes.find(t => t.id === formData.equipmentTypeId) || { defaultRate: 500, rateType: 'per_acre', icon: '🚜' };
+  const selectedType = equipmentTypes.find(t => t.id === formData.equipmentTypeId) || { defaultRate: 500, rateType: 'per_acre', icon: 'tractor' };
   const estimatedCost = (formData.landAreaAcres || 1) * (selectedType.defaultRate || 500);
   const myOwners = allOwners.filter(o => o.farmerId === user?.id);
   const MAX_MACHINES_PER_FARMER = 5;
@@ -318,7 +319,10 @@ export default function Equipment({ user, onLogin }) {
               transition: 'all 0.15s'
             }}
           >
-            🌾 Rent Equipment
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <AgriIcon name="wheat" size={14} color={activeTab === 'renter' ? '#fff' : '#6b7280'} />
+              Rent Equipment
+            </span>
           </button>
           <button
             onClick={() => setActiveTab('owner')}
@@ -334,7 +338,10 @@ export default function Equipment({ user, onLogin }) {
               transition: 'all 0.15s'
             }}
           >
-            🚜 I Own Machinery (Earn)
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <AgriIcon name="tractor" size={14} color={activeTab === 'owner' ? '#fff' : '#6b7280'} />
+              I Own Machinery (Earn)
+            </span>
           </button>
         </div>
       </div>
@@ -356,7 +363,8 @@ export default function Equipment({ user, onLogin }) {
 
             <form onSubmit={handleSubmitRequest} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#6b7280', marginBottom: '6px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: '#6b7280', marginBottom: '6px' }}>
+                  <AgriIcon name={selectedType.icon} size={14} color="#6b7280" />
                   Equipment Required
                 </label>
                 <select
@@ -374,7 +382,7 @@ export default function Equipment({ user, onLogin }) {
                 >
                   {equipmentTypes.map(t => (
                     <option key={t.id} value={t.id} style={{ backgroundColor: '#ffffff', color: '#111827' }}>
-                      {t.icon} {t.name} (₹{t.defaultRate}/{t.rateType === 'per_acre' ? 'acre' : 'hr'})
+                      {t.name} (₹{t.defaultRate}/{t.rateType === 'per_acre' ? 'acre' : 'hr'})
                     </option>
                   ))}
                 </select>
@@ -646,7 +654,10 @@ export default function Equipment({ user, onLogin }) {
                       borderRadius: '10px', padding: '8px 14px', fontSize: '12px', fontWeight: 700, cursor: 'pointer'
                     }}
                   >
-                    {o.available ? '🟢 Available for Job Pings' : '🔴 Marked Unavailable'}
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <AgriIcon name={o.available ? 'check-circle' : 'x-circle'} size={13} color={o.available ? '#15803d' : '#b91c1c'} />
+                      {o.available ? 'Available for Job Pings' : 'Marked Unavailable'}
+                    </span>
                   </button>
                 </div>
               ))}
@@ -669,7 +680,10 @@ export default function Equipment({ user, onLogin }) {
               this network separate from the vendor-mediated Rent Equipment flow. */}
           <div>
             <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '12px' }}>
-              🔔 Live Job Pings in Your Area (within {OWNER_JOB_RADIUS_KM} km)
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <AgriIcon name="bell" size={16} color="#111827" />
+                Live Job Pings in Your Area (within {OWNER_JOB_RADIUS_KM} km)
+              </span>
             </h3>
 
             {(() => {
@@ -737,7 +751,10 @@ export default function Equipment({ user, onLogin }) {
 
                         {hasAlreadyAccepted ? (
                           <span style={{ fontSize: '11px', fontWeight: 700, color: '#15803d', backgroundColor: 'rgba(16,185,129,0.12)', padding: '4px 10px', borderRadius: '8px', display: 'inline-block', marginTop: '6px' }}>
-                            ✓ QUOTE DISPATCHED
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                              <AgriIcon name="check" size={11} color="#15803d" />
+                              QUOTE DISPATCHED
+                            </span>
                           </span>
                         ) : (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-end' }}>

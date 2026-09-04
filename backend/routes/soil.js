@@ -186,9 +186,9 @@ Only include products from the catalog above, matching by exact ID. If fewer tha
     const msg = error.message || '';
     let friendlyMessage;
     if (msg.includes('429')) {
-      friendlyMessage = '⏳ API quota exhausted for today. Please try again later.';
+      friendlyMessage = 'API quota exhausted for today. Please try again later.';
     } else if (msg.includes('403')) {
-      friendlyMessage = '🔒 API key does not have access to this model.';
+      friendlyMessage = 'API key does not have access to this model.';
     } else if (msg.includes('GEMINI_API_KEY')) {
       friendlyMessage = 'AI analysis is not configured on this server yet (missing GEMINI_API_KEY).';
     } else {

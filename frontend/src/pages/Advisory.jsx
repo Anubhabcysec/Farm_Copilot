@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Brain } from 'lucide-react';
 import { API_BASE_URL } from '../config';
+import AgriIcon from '../components/AgriIcon';
 
 const INDIAN_LANGUAGES = [
   { name: 'English', code: 'en-IN', native: 'English' },
@@ -200,7 +200,7 @@ export default function Advisory({ user, onLogin }) {
         }
       }
     } catch (err) {
-      setResponse({ diagnosis: { issue: 'Connection Error', summary: '❌ Could not reach the AI service. Please check your connection and API key.', severity: 'critical', urgency: 'immediate' } });
+      setResponse({ diagnosis: { issue: 'Connection Error', summary: 'Could not reach the AI service. Please check your connection and API key.', severity: 'critical', urgency: 'immediate' } });
     } finally {
       setLoading(false);
     }
@@ -235,7 +235,7 @@ export default function Advisory({ user, onLogin }) {
         <div className="advisory-card animate-fade-up" style={{ animationDelay: '180ms' }}>
           <div className="advisory-card-header">
             <div className="advisory-card-icon">
-              <Brain size={18} color="#4ade80" strokeWidth={1.8} />
+              <AgriIcon name="brain" size={18} color="#4ade80" strokeWidth={1.8} />
             </div>
             <div>
               <h2 className="advisory-card-title">AI Diagnosis</h2>
@@ -359,7 +359,12 @@ export default function Advisory({ user, onLogin }) {
                   <video ref={videoRef} autoPlay playsInline className="advisory-camera-video" />
                 </div>
                 <div className="advisory-camera-controls">
-                  <button onClick={capturePhoto} className="btn-primary px-5 py-2.5" type="button">📸 Capture</button>
+                  <button onClick={capturePhoto} className="btn-primary px-5 py-2.5" type="button">
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <AgriIcon name="camera" size={14} color="currentColor" />
+                      Capture
+                    </span>
+                  </button>
                   <button onClick={stopCamera} className="btn-secondary px-5 py-2.5" type="button">Cancel</button>
                 </div>
               </div>
@@ -368,11 +373,11 @@ export default function Advisory({ user, onLogin }) {
                 <div className="advisory-upload-row">
                   <label className="advisory-upload-btn group">
                     <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-                    <div className="advisory-upload-icon group-hover:scale-110">📁</div>
+                    <div className="advisory-upload-icon group-hover:scale-110"><AgriIcon name="folder" size={26} color="currentColor" /></div>
                     <span className="advisory-upload-text">Upload from Files</span>
                   </label>
                   <button type="button" onClick={startCamera} className="advisory-upload-btn group">
-                    <div className="advisory-upload-icon group-hover:scale-110">📸</div>
+                    <div className="advisory-upload-icon group-hover:scale-110"><AgriIcon name="camera" size={26} color="currentColor" /></div>
                     <span className="advisory-upload-text">Take Photo</span>
                   </button>
                 </div>
@@ -390,7 +395,7 @@ export default function Advisory({ user, onLogin }) {
             {loading ? (
               <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Diagnosing in {currentLangObj.name}...</>
             ) : (
-              <><span>🔬</span>Get AI Diagnosis<span className="advisory-submit-arrow">→</span></>
+              <><AgriIcon name="search" size={15} color="currentColor" />Get AI Diagnosis<span className="advisory-submit-arrow">→</span></>
             )}
           </button>
         </div>
@@ -414,7 +419,7 @@ export default function Advisory({ user, onLogin }) {
           <div className={`advisory-result-card animate-slide-up border ${getSeverityBorder(response.diagnosis.severity)}`}>
             <div className="advisory-result-header flex items-center justify-between">
               <div className="advisory-result-title-row">
-                <span className="advisory-result-emoji">🌾</span>
+                <span className="advisory-result-emoji"><AgriIcon name="wheat" size={26} color="currentColor" /></span>
                 <div>
                   <h2 className="advisory-result-title">
                     {showEnglish 
@@ -447,7 +452,7 @@ export default function Advisory({ user, onLogin }) {
             </div>
 
             <div className="advisory-summary">
-              <div className="advisory-summary-icon">🔍</div>
+              <div className="advisory-summary-icon"><AgriIcon name="search" size={18} color="currentColor" /></div>
               <p className="advisory-summary-text">
                 {showEnglish 
                   ? (response.diagnosis.summaryEnglish || response.diagnosis.summary)
@@ -458,7 +463,7 @@ export default function Advisory({ user, onLogin }) {
             {response.products?.recommendations?.length > 0 && (
               <div className="advisory-products-section">
                 <h4 className="advisory-products-heading">
-                  <span className="advisory-products-check">✓</span>
+                  <span className="advisory-products-check"><AgriIcon name="check" size={13} color="currentColor" /></span>
                   Recommended Products
                 </h4>
                 <div className="advisory-products-grid">
@@ -486,7 +491,10 @@ export default function Advisory({ user, onLogin }) {
                         })}
                         className="instruction-btn mt-2 w-full justify-center"
                       >
-                        📖 Usage Instructions
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                          <AgriIcon name="book" size={13} color="currentColor" />
+                          Usage Instructions
+                        </span>
                       </button>
                     </div>
                   ))}
@@ -499,7 +507,7 @@ export default function Advisory({ user, onLogin }) {
               onClick={() => navigate(`/treatment?disease=${encodeURIComponent(response.diagnosis.issueEnglish || response.diagnosis.issue)}`)}
               className="advisory-submit btn-primary mt-4 w-full"
             >
-              <span>💊</span>
+              <AgriIcon name="pill" size={15} color="currentColor" />
               Get Treatment & Remedies
               <span className="advisory-submit-arrow">→</span>
             </button>
@@ -512,7 +520,7 @@ export default function Advisory({ user, onLogin }) {
           <div className="instruction-modal-card" onClick={e => e.stopPropagation()}>
             <div className="instruction-modal-header">
               <div className="flex items-center gap-2">
-                <span className="text-xl">📖</span>
+                <span className="text-xl"><AgriIcon name="book" size={18} color="currentColor" /></span>
                 <div>
                   <h3 className="text-base font-semibold text-white">{selectedInstruction.name}</h3>
                   <span className="text-xs text-purple-400 capitalize">{selectedInstruction.category}</span>
@@ -529,28 +537,28 @@ export default function Advisory({ user, onLogin }) {
 
             <div className="flex flex-col gap-3">
               <div className="instruction-step instruction-step-purple">
-                <div className="step-title">🧪 Mixing Ratio & Dosage</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="flask" size={14} color="currentColor" />Mixing Ratio & Dosage</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.dosage || '2g per litre of clean water'}. Mix thoroughly in a small container before adding to the main spray tank.
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-emerald">
-                <div className="step-title">🚿 Application Method & Timing</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="spray" size={14} color="currentColor" />Application Method & Timing</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.application || 'Foliar spray at 10-15 day intervals'}. Apply evenly on upper and lower leaf surfaces during early morning (6-9 AM) or late evening (5-7 PM).
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-amber">
-                <div className="step-title">🛡️ Safety & Protection</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="shield" size={14} color="currentColor" />Safety & Protection</div>
                 <p className="instruction-step-desc">
                   {selectedInstruction.precautions || 'Avoid spraying during high winds. Wear protective gloves and a face mask.'} Keep out of reach of children and domestic animals.
                 </p>
               </div>
 
               <div className="instruction-step instruction-step-blue">
-                <div className="step-title">⏰ Spray Frequency</div>
+                <div className="step-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="clock" size={14} color="currentColor" />Spray Frequency</div>
                 <p className="instruction-step-desc">
                   Repeat application every 10–14 days if pest or disease symptoms persist. Stop application 7–10 days before crop harvest.
                 </p>

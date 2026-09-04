@@ -5,17 +5,7 @@ import { API_BASE_URL } from '../config';
 import FarmBackdrop from '../components/FarmBackdrop';
 import ScrollGrowthPlant from '../components/ScrollGrowthPlant';
 import softBeigeBg from '../assets/soft-beige-bg.jpg';
-import { Zap, Map, ShieldCheck, Globe, Brain, Pill, CloudSun } from 'lucide-react';
-
-const EMOJI_ICON_MAP = {
-  '⚡': Zap,
-  '🗺️': Map,
-  '🛡️': ShieldCheck,
-  '🌐': Globe,
-  '🧠': Brain,
-  '💊': Pill,
-  '🌦️': CloudSun,
-};
+import AgriIcon from '../components/AgriIcon';
 
 /* ─────────────────────────────────────────────
    GLOBAL STYLES — hero + showcase keyframes
@@ -314,7 +304,7 @@ function HeroVisual() {
             backgroundColor: 'rgba(255,255,255,0.04)', padding: '3px 8px',
             borderRadius: '100px', border: '1px solid rgba(255,255,255,0.08)',
             pointerEvents: 'none',
-          }}>▶ Hover to play</div>
+          }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><AgriIcon name="play" size={9} color="#444" />Hover to play</span></div>
         )}
       </div>
     </div>
@@ -388,7 +378,7 @@ function AdvisoryAnimation({ isPlaying, onComplete }) {
         border: '1px solid #ecdfc0',
         height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <span style={{ fontSize: '52px', filter: 'drop-shadow(0 2px 6px rgba(101,79,34,0.35))' }}>🌿</span>
+        <span style={{ filter: 'drop-shadow(0 2px 6px rgba(101,79,34,0.35))', display: 'inline-flex' }}><AgriIcon name="leaf" size={48} color="#4d7c0f" /></span>
         {/* Scan bar */}
         {isPlaying && !scanDone && (
           <div style={{
@@ -484,8 +474,8 @@ function TreatmentAnimation({ isPlaying, onComplete }) {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         transition: 'border-color 0.3s',
       }}>
-        <span style={{ fontSize: '13px', color: '#e2e8f0', fontWeight: 500 }}>
-          {step >= 1 ? '🌾 Rice — Blast Disease' : 'Select crop & disease…'}
+        <span style={{ fontSize: '13px', color: '#e2e8f0', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+          {step >= 1 ? <><AgriIcon name="wheat" size={13} color="#e2e8f0" />Rice — Blast Disease</> : 'Select crop & disease…'}
         </span>
         <span style={{ color: '#555', fontSize: '10px' }}>▼</span>
       </div>
@@ -522,7 +512,7 @@ function TreatmentAnimation({ isPlaying, onComplete }) {
         backgroundColor: 'rgba(34,197,94,0.06)', borderRadius: '8px',
         padding: '9px 12px', border: '1px solid rgba(34,197,94,0.15)',
       }}>
-        <span style={{ fontSize: '18px' }}>📍</span>
+        <AgriIcon name="pin" size={17} color="#4ade80" />
         <div>
           <div style={{ fontSize: '12px', fontWeight: 600, color: '#4ade80' }}>3 shops nearby</div>
           <div style={{ fontSize: '10px', color: '#555' }}>Krishi Kendra · AgriMart · FarmPlus</div>
@@ -556,9 +546,9 @@ function WeatherAnimation({ isPlaying, onComplete }) {
   }, [isPlaying]);
 
   const alerts = [
-    { icon: '🍄', label: 'Fungal Risk', level: 'High', color: '#f87171', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.2)' },
-    { icon: '🐛', label: 'Pest Risk', level: 'Medium', color: '#fbbf24', bg: 'rgba(251,191,36,0.08)', border: 'rgba(251,191,36,0.2)' },
-    { icon: '🌧️', label: 'Blight Risk', level: 'Low', color: '#4ade80', bg: 'rgba(74,222,128,0.08)', border: 'rgba(74,222,128,0.2)' },
+    { icon: 'mushroom', label: 'Fungal Risk', level: 'High', color: '#f87171', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.2)' },
+    { icon: 'bug', label: 'Pest Risk', level: 'Medium', color: '#fbbf24', bg: 'rgba(251,191,36,0.08)', border: 'rgba(251,191,36,0.2)' },
+    { icon: 'cloud-rain', label: 'Blight Risk', level: 'Low', color: '#4ade80', bg: 'rgba(74,222,128,0.08)', border: 'rgba(74,222,128,0.2)' },
   ];
 
   return (
@@ -575,16 +565,16 @@ function WeatherAnimation({ isPlaying, onComplete }) {
         display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px',
       }}>
         {[
-          { icon: '🌡️', val: '31°C', label: 'Temp' },
-          { icon: '💧', val: '78%', label: 'Humidity' },
-          { icon: '💨', val: '12 km/h', label: 'Wind' },
+          { icon: 'thermometer', val: '31°C', label: 'Temp' },
+          { icon: 'droplet', val: '78%', label: 'Humidity' },
+          { icon: 'wind', val: '12 km/h', label: 'Wind' },
         ].map((s) => (
           <div key={s.label} style={{
             backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '10px',
             padding: '10px 8px', border: '1px solid rgba(255,255,255,0.06)',
             textAlign: 'center',
           }}>
-            <div style={{ fontSize: '20px', marginBottom: '4px' }}>{s.icon}</div>
+            <div style={{ marginBottom: '4px', display: 'flex', justifyContent: 'center' }}><AgriIcon name={s.icon} size={18} color="#e2e8f0" /></div>
             <div style={{ fontSize: '13px', fontWeight: 700, color: '#e2e8f0' }}>{s.val}</div>
             <div style={{ fontSize: '9px', color: '#555', marginTop: '2px' }}>{s.label}</div>
           </div>
@@ -618,7 +608,7 @@ function WeatherAnimation({ isPlaying, onComplete }) {
             transform: alertsVisible ? 'translateX(0)' : 'translateX(-12px)',
             transition: `opacity 0.35s ${i * 0.12}s, transform 0.35s ${i * 0.12}s`,
           }}>
-            <span style={{ fontSize: '14px' }}>{a.icon}</span>
+            <AgriIcon name={a.icon} size={14} color={a.color} />
             <span style={{ fontSize: '12px', color: '#ccc', flex: 1 }}>{a.label}</span>
             <span style={{
               fontSize: '9px', fontWeight: 700, color: a.color,
@@ -731,7 +721,7 @@ function VerifyAnimation({ isPlaying }) {
             padding: '10px 20px', border: '1px solid rgba(34,197,94,0.2)',
             width: '100%', justifyContent: 'center',
           }}>
-            <span style={{ fontSize: '18px' }}>✅</span>
+            <AgriIcon name="check-circle" size={17} color="#4ade80" />
             <span style={{ fontSize: '13px', fontWeight: 700, color: '#4ade80' }}>Authentic Product</span>
           </div>
           <div style={{ fontSize: '11px', color: '#555' }}>Bayer Confidor 200 SL · Batch verified</div>
@@ -807,7 +797,7 @@ function ProductsAnimation({ isPlaying }) {
                 fontSize: '9px', fontWeight: 700, color: p.catColor,
                 backgroundColor: p.catBg, padding: '1px 6px', borderRadius: '100px',
               }}>{p.cat}</span>
-              <span style={{ fontSize: '10px', color: '#555' }}>⭐ {p.rating}</span>
+              <span style={{ fontSize: '10px', color: '#555', display: 'inline-flex', alignItems: 'center', gap: '3px' }}><AgriIcon name="star" size={10} color="#fbbf24" />{p.rating}</span>
             </div>
           </div>
           <div style={{ fontSize: '12px', fontWeight: 700, color: '#4ade80', whiteSpace: 'nowrap' }}>{p.price}</div>
@@ -860,7 +850,7 @@ function ShowcaseRow({ animLeft, title, tag, desc, path, icon, AnimComponent, na
             backgroundColor: 'rgba(255,255,255,0.03)', padding: '3px 8px',
             borderRadius: '100px', border: '1px solid rgba(255,255,255,0.06)',
             pointerEvents: 'none', zIndex: 2,
-          }}>▶ Hover to play</div>
+          }}><span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><AgriIcon name="play" size={9} color="#444" />Hover to play</span></div>
         )}
         <AnimComponent isPlaying={hovered} />
       </div>
@@ -902,10 +892,7 @@ function ShowcaseRow({ animLeft, title, tag, desc, path, icon, AnimComponent, na
             e.currentTarget.style.borderColor = `rgba(${rgb},0.3)`;
           }}
         >
-          {(() => {
-            const RowIcon = EMOJI_ICON_MAP[icon];
-            return RowIcon ? <RowIcon size={22} color={accent.text} strokeWidth={1.8} /> : null;
-          })()}
+          {icon ? <AgriIcon name={icon} size={22} color={accent.text} strokeWidth={1.8} /> : null}
         </span>
         <h3 style={{
           fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 800,
@@ -981,10 +968,10 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { icon: '⚡', value: 'Gemini AI', label: "Google's most advanced model for crop diagnosis", accentKey: 'advisory' },
-    { icon: '🗺️', value: 'Live Maps', label: 'Find the nearest agricultural store in seconds', accentKey: 'treatment' },
-    { icon: '🛡️', value: 'Verified DB', label: 'Trusted database of authenticated farm products', accentKey: 'weather' },
-    { icon: '🌐', value: '24/7', label: 'Always-on advisory — no waiting, instant answers', accentKey: 'amber' },
+    { icon: 'zap', value: 'Gemini AI', label: "Google's most advanced model for crop diagnosis", accentKey: 'advisory' },
+    { icon: 'map', value: 'Live Maps', label: 'Find the nearest agricultural store in seconds', accentKey: 'treatment' },
+    { icon: 'shield-check', value: 'Verified DB', label: 'Trusted database of authenticated farm products', accentKey: 'weather' },
+    { icon: 'globe', value: '24/7', label: 'Always-on advisory — no waiting, instant answers', accentKey: 'amber' },
   ];
 
   const howItWorks = [
@@ -995,17 +982,17 @@ export default function Home() {
 
   const showcaseFeatures = [
     {
-      icon: '🧠', title: 'AI Crop Advisory', tag: 'Powered by Gemini',
+      icon: 'brain', title: 'AI Crop Advisory', tag: 'Powered by Gemini',
       desc: 'Upload a photo of your crops or describe the problem. Google Gemini AI instantly diagnoses diseases, pests, and nutrient deficiencies with actionable treatment recommendations.',
       path: '/advisory', Anim: AdvisoryAnimation, accentKey: 'advisory',
     },
     {
-      icon: '💊', title: 'Treatment Finder', tag: 'With Shop Finder',
+      icon: 'pill', title: 'Treatment Finder', tag: 'With Shop Finder',
       desc: 'Select your crop disease and get precise pesticide and fertilizer recommendations. Includes dosage instructions, application methods, and nearby agricultural shop discovery with maps.',
       path: '/treatment', Anim: TreatmentAnimation, accentKey: 'treatment',
     },
     {
-      icon: '🌦️', title: 'Weather & Disease Risk', tag: 'Live Weather Data',
+      icon: 'cloud-drizzle', title: 'Weather & Disease Risk', tag: 'Live Weather Data',
       desc: 'Real-time weather analysis to predict disease outbreak risk before it happens. Get proactive alerts for fungal, bacterial, and pest-related threats based on your local conditions.',
       path: '/weather', Anim: WeatherAnimation, accentKey: 'weather',
     },
@@ -1102,7 +1089,6 @@ export default function Home() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1px', backgroundColor: 'rgba(0,0,0,0.07)', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.07)' }}>
           {stats.map((s) => {
             const rgb = accentFor(s.accentKey).rgb;
-            const StatIcon = EMOJI_ICON_MAP[s.icon];
             return (
               <TiltCard key={s.value} maxDeg={7} scale={1.03} style={{ backgroundColor: '#ffffff', padding: 'clamp(18px, 4vw, 24px) clamp(14px, 3vw, 20px)', textAlign: 'center' }}>
                 <div
@@ -1125,7 +1111,7 @@ export default function Home() {
                     e.currentTarget.style.borderColor = `rgba(${rgb},0.3)`;
                   }}
                 >
-                  {StatIcon && <StatIcon size={17} color={accentFor(s.accentKey).text} strokeWidth={1.8} />}
+                  {s.icon && <AgriIcon name={s.icon} size={17} color={accentFor(s.accentKey).text} strokeWidth={1.8} />}
                 </div>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '4px' }}>{s.value}</div>
                 <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: 1.4 }}>{s.label}</div>

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { FlaskConical, Sprout } from 'lucide-react';
 import SoilAnalysis from '../components/SoilAnalysis';
+import AgriIcon from '../components/AgriIcon';
 import { API_BASE_URL } from '../config';
 
 const FARMS_API = `${API_BASE_URL}/api/farms`;
@@ -465,7 +465,7 @@ export default function SoilTest({ user, onLogin }) {
   if (!user) {
     return (
       <div style={{ ...cardStyle, textAlign: 'center', padding: '48px 24px' }}>
-        <FlaskConical size={32} color="#16a34a" strokeWidth={1.8} style={{ margin: '0 auto 12px', display: 'block' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}><AgriIcon name="flask" size={32} color="#16a34a" strokeWidth={1.8} /></div>
         <h3 style={{ color: '#111827', fontSize: '17px', margin: '0 0 8px' }}>Log in to test your soil</h3>
         <p style={{ color: '#6b7280', fontSize: '13px', margin: '0 0 20px' }}>
           Every confirmed test is saved to that farm's own soil history.
@@ -488,7 +488,7 @@ export default function SoilTest({ user, onLogin }) {
   if (farms.length === 0) {
     return (
       <div style={{ ...cardStyle, textAlign: 'center', padding: '48px 24px' }}>
-        <Sprout size={32} color="#16a34a" strokeWidth={1.8} style={{ margin: '0 auto 12px', display: 'block' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}><AgriIcon name="sprout" size={32} color="#16a34a" strokeWidth={1.8} /></div>
         <h3 style={{ color: '#111827', fontSize: '17px', margin: '0 0 8px' }}>Add a farm first</h3>
         <p style={{ color: '#6b7280', fontSize: '13px', margin: '0 0 20px' }}>
           A soil test always belongs to one field, so we know where the reading came from.
@@ -542,8 +542,8 @@ export default function SoilTest({ user, onLogin }) {
         </div>
         {selectedFarm && (
           <p style={{ fontSize: '12px', color: '#6b7280', margin: '10px 0 0', lineHeight: 1.6 }}>
-            📍 {selectedFarm.location}<br />
-            🌱 Crop: {selectedFarm.currentCrop || <span style={{ color: '#15803d' }}>not set — AI will suggest which crop suits this soil</span>}
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="pin" size={12} color="#6b7280" />{selectedFarm.location}</span><br />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}><AgriIcon name="sprout" size={12} color="#6b7280" />Crop: {selectedFarm.currentCrop || <span style={{ color: '#15803d' }}>not set — AI will suggest which crop suits this soil</span>}</span>
           </p>
         )}
       </div>
@@ -552,7 +552,7 @@ export default function SoilTest({ user, onLogin }) {
       <div style={cardStyle}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
           <div>
-            <h3 style={{ color: '#111827', fontSize: '15px', fontWeight: 700, margin: '0 0 4px' }}>🔌 NPK Meter</h3>
+            <h3 style={{ color: '#111827', fontSize: '15px', fontWeight: 700, margin: '0 0 4px', display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="flask" size={15} color="#111827" />NPK Meter</h3>
             <p style={{ color: '#6b7280', fontSize: '12px', margin: 0 }}>
               {connected
                 ? (streaming ? 'Connected — reading live values' : 'Connected — waiting for data from the meter…')
@@ -743,7 +743,7 @@ export default function SoilTest({ user, onLogin }) {
           }}
         >
           <div>
-            <div style={{ color: '#111827', fontSize: '14px', fontWeight: 600, marginBottom: '3px' }}>✍️ Enter Values Manually</div>
+            <div style={{ color: '#111827', fontSize: '14px', fontWeight: 600, marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '6px' }}><AgriIcon name="ruler" size={14} color="#111827" />Enter Values Manually</div>
             <div style={{ color: '#6b7280', fontSize: '12px' }}>No meter plugged in? Type the seven values, or load a demo reading.</div>
           </div>
           <span style={{ color: '#15803d', fontSize: '18px' }}>→</span>
@@ -884,7 +884,7 @@ export default function SoilTest({ user, onLogin }) {
                   fontSize: '14px', fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer',
                 }}
               >
-                {saving ? '⏳ Saving…' : 'Save Soil Test'}
+                {saving ? 'Saving…' : 'Save Soil Test'}
               </button>
             </form>
           </div>
