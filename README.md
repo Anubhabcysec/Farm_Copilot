@@ -164,22 +164,7 @@ npm start
 
 ---
 
-## 🤝 Contributors
-
-<a href="https://github.com/Anubhabcysec">
-  <img src="https://github.com/Anubhabcysec.png" width="60" style="border-radius:50%" />
-</a>
-
-**[Anubhab](https://github.com/Anubhabcysec)**
 
 ---
 
-## 📄 License
 
-This project currently has no license specified. Add one (e.g. MIT) if you plan to open-source it.
-
-<div align="center">
-
-Made with 🌾 for farmers.
-
-</div>
